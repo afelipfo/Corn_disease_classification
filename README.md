@@ -188,12 +188,3 @@ Este repositorio es público para consulta. Las contribuciones al código son ge
   * El trabajo se organiza en **ramas individuales** por colaborador.
   * Todos los cambios deben ser integrados a la rama principal a través de **Pull Requests (PRs)**.
   * Cada PR debe ser **revisado y aprobado** por al menos otro miembro del equipo.
-
------
-
-## 🧑‍💻 Equipo de Trabajo
-
-  * **Oscar Gonzalez:** Recolección y gestión de datos.
-  * **Luis Macea:** Desarrollo del prototipo y gestión del repositorio GitHub.
-  * **Felipe Florez:** Exploración y descripción de datos, gestión del repositorio DVC.
-  * **Nicolas Castillo:** Exploración y descripción de datos, gestión del repositorio DVC.
