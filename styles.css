@@ -80,6 +80,35 @@ body {
     font-weight: 400;
 }
 
+.api-status {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.api-status.online #statusIcon {
+    color: #4ade80;
+}
+
+.api-status.offline #statusIcon {
+    color: #f87171;
+}
+
+.api-status.checking #statusIcon {
+    color: #fbbf24;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
 .main-content {
     padding: 3rem 2rem;
 }
