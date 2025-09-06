@@ -8,7 +8,7 @@ class CornDiseaseApp {
         this.initializeElements();
         this.bindEvents();
         this.loadHistoryFromStorage();
-        this.setApiStatus('online', 'Listo para analizar');
+        this.setApiStatus('online', 'API Lista');
     }
 
     initializeElements() {
@@ -40,16 +40,28 @@ class CornDiseaseApp {
 
     bindEvents() {
         // Upload area events
-        this.uploadArea.addEventListener('click', () => this.fileInput.click());
+        this.uploadArea.addEventListener('click', (e) => {
+            console.log('Upload area clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            this.fileInput.click();
+        });
         this.uploadArea.addEventListener('dragover', this.handleDragOver.bind(this));
         this.uploadArea.addEventListener('dragleave', this.handleDragLeave.bind(this));
         this.uploadArea.addEventListener('drop', this.handleDrop.bind(this));
 
         // File input change
-        this.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
+        this.fileInput.addEventListener('change', (e) => {
+            console.log('File input changed:', e.target.files);
+            this.handleFileSelect(e);
+        });
 
         // Button events
-        this.changeImageBtn.addEventListener('click', () => this.fileInput.click());
+        this.changeImageBtn.addEventListener('click', (e) => {
+            console.log('Change image button clicked!');
+            e.preventDefault();
+            this.fileInput.click();
+        });
         this.analyzeBtn.addEventListener('click', this.analyzeImage.bind(this));
         this.continueBtn.addEventListener('click', this.continueAnalysis.bind(this));
         this.exitBtn.addEventListener('click', this.exitApplication.bind(this));
@@ -342,7 +354,7 @@ class CornDiseaseApp {
         this.resultsSection.classList.remove('show');
         this.continueSection.style.display = 'none';
         this.fileInput.value = '';
-        this.setApiStatus('online', 'Listo para analizar');
+        this.setApiStatus('online', 'API Lista');
 
         this.uploadArea.scrollIntoView({ 
             behavior: 'smooth', 
