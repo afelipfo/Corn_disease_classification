@@ -148,6 +148,7 @@ body {
     margin-bottom: 1rem;
     display: block;
     transition: transform 0.3s ease;
+    pointer-events: none;
 }
 
 .upload-area:hover .upload-icon {
@@ -159,11 +160,13 @@ body {
     font-weight: 600;
     color: #333;
     margin-bottom: 0.5rem;
+    pointer-events: none;
 }
 
 .upload-subtext {
     color: #666;
     font-size: 0.95rem;
+    pointer-events: none;
 }
 
 .file-input {

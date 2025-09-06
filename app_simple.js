@@ -8,7 +8,7 @@ class CornDiseaseApp {
         this.initializeElements();
         this.bindEvents();
         this.loadHistoryFromStorage();
-        this.setApiStatus('online', 'API Lista');
+        // No mostrar estado de API por defecto
     }
 
     initializeElements() {
@@ -39,13 +39,32 @@ class CornDiseaseApp {
     }
 
     bindEvents() {
-        // Upload area events
+        // Upload area events - Mejorado para asegurar que el clic funcione
         this.uploadArea.addEventListener('click', (e) => {
             console.log('Upload area clicked!');
             e.preventDefault();
             e.stopPropagation();
+            console.log('Triggering file input click...');
             this.fileInput.click();
+            console.log('File input click triggered');
+        }, true);  // Usar capture para asegurar que se ejecute primero
+        
+        // Agregar eventos a elementos hijos para asegurar que el clic funcione
+        const uploadIcon = this.uploadArea.querySelector('.upload-icon');
+        const uploadText = this.uploadArea.querySelector('.upload-text');
+        const uploadSubtext = this.uploadArea.querySelector('.upload-subtext');
+        
+        [uploadIcon, uploadText, uploadSubtext].forEach(element => {
+            if (element) {
+                element.addEventListener('click', (e) => {
+                    console.log('Child element clicked, triggering file input');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.fileInput.click();
+                });
+            }
         });
+        
         this.uploadArea.addEventListener('dragover', this.handleDragOver.bind(this));
         this.uploadArea.addEventListener('dragleave', this.handleDragLeave.bind(this));
         this.uploadArea.addEventListener('drop', this.handleDrop.bind(this));
@@ -354,7 +373,7 @@ class CornDiseaseApp {
         this.resultsSection.classList.remove('show');
         this.continueSection.style.display = 'none';
         this.fileInput.value = '';
-        this.setApiStatus('online', 'API Lista');
+        // Reset sin mostrar estado de API
 
         this.uploadArea.scrollIntoView({ 
             behavior: 'smooth', 
