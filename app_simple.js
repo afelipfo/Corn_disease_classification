@@ -23,11 +23,6 @@ class CornDiseaseApp {
         this.resultCard = document.getElementById('resultCard');
         this.loadingOverlay = document.getElementById('loadingOverlay');
         
-        // Status elements
-        this.apiStatus = document.getElementById('apiStatus');
-        this.statusIcon = document.getElementById('statusIcon');
-        this.statusText = document.getElementById('statusText');
-        
         // Continue/History elements
         this.continueSection = document.getElementById('continueSection');
         this.continueBtn = document.getElementById('continueBtn');
@@ -152,7 +147,6 @@ class CornDiseaseApp {
         console.log('Iniciando análisis de imagen...');
         this.showLoading(true);
         this.analyzeBtn.disabled = true;
-        this.setApiStatus('checking', 'Analizando imagen...');
 
         const formData = new FormData();
         formData.append('file', this.currentFile);
@@ -185,11 +179,9 @@ class CornDiseaseApp {
             this.displayResults(data);
             this.addToHistory(data);
             this.showContinueOptions();
-            this.setApiStatus('online', 'Análisis completado exitosamente');
 
         } catch (error) {
             console.error('Error completo:', error);
-            this.setApiStatus('offline', 'Error en el análisis');
             
             if (error.name === 'TypeError' && error.message.includes('fetch')) {
                 this.showError('Error de conexión: No se pudo conectar con el servidor. Verifique su conexión a internet.');
@@ -281,13 +273,6 @@ class CornDiseaseApp {
 
     showLoading(show) {
         this.loadingOverlay.style.display = show ? 'flex' : 'none';
-    }
-
-    setApiStatus(status, message) {
-        if (this.apiStatus) {
-            this.apiStatus.className = `api-status ${status}`;
-            this.statusText.textContent = message;
-        }
     }
 
     addToHistory(data) {
