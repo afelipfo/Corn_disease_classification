@@ -47,6 +47,30 @@ def preprocess_image(image_bytes: bytes, target_size=(224, 224)) -> np.ndarray:
     img_array = tf.keras.preprocessing.image.img_to_array(img) / 255.0
     return np.expand_dims(img_array, axis=0)
 
+@app.get("/")
+async def root():
+    return {
+        "message": "🌽 API de Detección de Enfermedades en Maíz",
+        "status": "activa",
+        "endpoints": {
+            "predict": "POST /predict - Sube una imagen para análisis",
+            "health": "GET /health - Estado de la API",
+            "info": "GET /info - Información del modelo"
+        }
+    }
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "model_loaded": model is not None}
+
+@app.get("/info")
+async def info():
+    return {
+        "model_classes": CLASS_NAMES,
+        "input_size": "224x224",
+        "supported_formats": ["JPG", "PNG", "JPEG"]
+    }
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     image_bytes = await file.read()

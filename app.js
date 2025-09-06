@@ -2,7 +2,7 @@
 
 class CornDiseaseApp {
     constructor() {
-        this.apiEndpoint = 'http://127.0.0.1:8000/predict';
+        this.apiEndpoint = 'https://felipepflorezo-corn-disease-api.hf.space/predict';
         this.currentFile = null;
         this.predictionHistory = [];
         this.initializeElements();
@@ -119,22 +119,36 @@ class CornDiseaseApp {
         formData.append('file', this.currentFile);
 
         try {
+            console.log('Enviando solicitud a:', this.apiEndpoint);
+            
             const response = await fetch(this.apiEndpoint, {
                 method: 'POST',
                 body: formData,
+                // No agregamos headers de Content-Type porque FormData lo maneja automáticamente
             });
 
+            console.log('Respuesta recibida:', response.status, response.statusText);
+
             if (!response.ok) {
-                throw new Error('Error en la respuesta del servidor.');
+                const errorText = await response.text();
+                throw new Error(`Error del servidor (${response.status}): ${errorText}`);
             }
 
             const data = await response.json();
+            console.log('Datos recibidos:', data);
+            
             this.displayResults(data);
             this.addToHistory(data);
             this.showContinueOptions();
 
         } catch (error) {
-            this.showError(`Error al analizar la imagen: ${error.message}`);
+            console.error('Error detallado:', error);
+            
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                this.showError(`Error de conexión: No se pudo conectar con el servidor. Verifique su conexión a internet y que la API esté funcionando.`);
+            } else {
+                this.showError(`Error al analizar la imagen: ${error.message}`);
+            }
         } finally {
             this.showLoading(false);
             this.analyzeBtn.disabled = false;
